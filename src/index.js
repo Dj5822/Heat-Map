@@ -33,7 +33,7 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
                         .range([leftPadding, WIDTH - rightPadding]);
 
         const yScale = d3.scaleLinear()
-                        .domain([1, 12])
+                        .domain([1, 13])
                         .range([botPadding, HEIGHT - topPadding]);
         
         const xAxis = d3.axisBottom(xScale);
@@ -43,6 +43,54 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
         const svg = d3.select("body").append("svg")
                     .attr("width", WIDTH)
                     .attr("height", HEIGHT);
+
+        const rectWidth = xScale(dataset[0].year+1) - xScale(dataset[0].year);
+        const rectHeight = yScale(2) - yScale(1);
+
+        svg.selectAll('rect').data(dataset).enter().append('rect')
+            .attr("width", rectWidth)
+            .attr("height", rectHeight)
+            .attr("x", (d,i) => {
+                return xScale(d.year);
+            })
+            .attr("y", (d,i) => {
+                return yScale(d.month);
+            })
+            .attr("fill", (d,i) => {
+                if (data.baseTemperature + d.variance <= 2.8) {
+                    return "rgb(49, 54, 149)";
+                }
+                else if (data.baseTemperature + d.variance <= 3.9) {
+                    return "rgb(69, 117, 180)";
+                }
+                else if (data.baseTemperature + d.variance <= 5) {
+                    return "rgb(116, 173, 209)";
+                }
+                else if (data.baseTemperature + d.variance <= 6.1) {
+                    return "rgb(171, 217, 233)";
+                }
+                else if (data.baseTemperature + d.variance <= 7.2) {
+                    return "rgb(224, 243, 248)";
+                }
+                else if (data.baseTemperature + d.variance <= 8.3) {
+                    return "rgb(255, 255, 191)";
+                }
+                else if (data.baseTemperature + d.variance <= 9.5) {
+                    return "rgb(254, 224, 144)";
+                }
+                else if (data.baseTemperature + d.variance <= 10.6) {
+                    return "rgb(253, 174, 97)";
+                }
+                else if (data.baseTemperature + d.variance <= 11.7) {
+                    return "rgb(244, 109, 67)";
+                }
+                else if (data.baseTemperature + d.variance <= 12.8) {
+                    return "rgb(215, 48, 39)";
+                }
+                else {
+                    return "rgb(165, 0, 38)";
+                }
+            });
         
         svg.append("g").attr("id", "x-axis")
                         .attr("transform", "translate(0," + (HEIGHT - botPadding) + ")")
