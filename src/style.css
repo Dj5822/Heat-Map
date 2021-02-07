@@ -1,0 +1,11 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+svg {
+  background-color: aliceblue;
+}
+
+/*# sourceMappingURL=style.css.map */
