@@ -100,10 +100,59 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
                         .attr("transform", "translate(" + leftPadding + ", 0)")
                         .call(yAxis.tickFormat(x => monthValues[x]));
 
-        const tempScale = d3.scaleLinear().domain([2.8, 12.8])
-            .range(WIDTH/5, 2*WIDTH/5);
+        const legend = d3.select("body").append("svg")
+                        .attr("id", "legend")
+                        .attr("width", WIDTH)
+                        .attr("height", HEIGHT/3);
+        
+        var legendValues = [2.8, 3.9, 5.0, 6.1, 7.2, 8.3, 9.5, 10.6, 11.7, 12.8];
 
-        const tempAxis = d3.axisBottom(tempScale);
+        const legendScale = d3.scaleLinear().domain([1.7, 13.9])
+            .range([WIDTH/5, 3*WIDTH/5]);
+
+        const legendAxis = d3.axisBottom(legendScale);
+        const legendRectHeight = legendScale(legendValues[1]) - legendScale(legendValues[0]);
+
+        legend.append('g').attr("id", "legend-axis")
+            .attr("transform", "translate(0, " + HEIGHT/4 + ")")
+            .call(legendAxis.tickFormat(d3.format(".1f")).tickValues(legendValues));
+
+        legend.selectAll("rect").data(legendValues.slice(0, legendValues.length-1)).enter().append("rect")
+            .attr("width", (d,i) => {
+                return legendScale(legendValues[i+1]) - legendScale(d);
+            })
+            .attr("height", legendRectHeight)
+            .attr("x", (d,i) => legendScale(d))
+            .attr("y", HEIGHT/4 - legendRectHeight)
+            .style("fill", (d,i) => {
+                if (d < 3.9) {
+                    return "rgb(69, 117, 180)";
+                }
+                else if (d < 5) {
+                    return "rgb(116, 173, 209)";
+                }
+                else if (d < 6.1) {
+                    return "rgb(171, 217, 233)";
+                }
+                else if (d < 7.2) {
+                    return "rgb(224, 243, 248)";
+                }
+                else if (d < 8.3) {
+                    return "rgb(255, 255, 191)";
+                }
+                else if (d < 9.5) {
+                    return "rgb(254, 224, 144)";
+                }
+                else if (d < 10.6) {
+                    return "rgb(253, 174, 97)";
+                }
+                else if (d < 11.7) {
+                    return "rgb(244, 109, 67)";
+                }
+                else if (d < 12.8) {
+                    return "rgb(215, 48, 39)";
+                }
+            });
 
         d3.select("body").append("text").text(JSON.stringify(data));
     });
