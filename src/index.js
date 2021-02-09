@@ -120,7 +120,8 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
 
                 tooltip.style("left", xScale(d.year) - 150/3 + "px")
                         .style("top", yScale(d.month) + "px")
-                        .style("opacity", 1);
+                        .style("opacity", 1)
+                        .attr("data-year", d.year);
             })
             .on("mouseout", (d, i) => {
                 tooltip.style("left", "0px")
