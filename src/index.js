@@ -47,6 +47,20 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
         const rectWidth = xScale(dataset[0].year+1) - xScale(dataset[0].year);
         const rectHeight = yScale(2) - yScale(1);
 
+        var tooltip = d3.select('body').append('div')
+                        .attr("id", "tooltip")
+                        .style("width", "150px")
+                        .style("height", "100px")
+                        .style("opacity", 0)
+                        .style("text-align", "center")
+                        .attr("data-year", "")
+                        .style("left", "0px")
+                        .style("top", 5 * HEIGHT / 4 + "px");
+
+        var dateText = tooltip.append("label");
+        var tempText = tooltip.append("label");
+        var varianceText = tooltip.append("label");
+
         svg.selectAll('rect').data(dataset).enter().append('rect')
             .attr("width", rectWidth)
             .attr("height", rectHeight)
@@ -90,6 +104,20 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
                 else {
                     return "rgb(165, 0, 38)";
                 }
+            })
+            .on("mouseover", (d, i) => {
+                dateText.text(d.year + " - " + monthValues[d.month]);
+                tempText.text((data.baseTemperature + d.variance).toFixed(1) + String.fromCharCode(176) + "C");
+                varianceText.text(d.variance.toFixed(1) + String.fromCharCode(176) + "C");
+
+                tooltip.style("left", xScale(d.year) - 150/3 + "px")
+                        .style("top", yScale(d.month) + "px")
+                        .style("opacity", 1);
+            })
+            .on("mouseout", (d, i) => {
+                tooltip.style("left", "0px")
+                        .style("top", 5 * HEIGHT / 4 + "px")
+                        .style("opacity", 0);
             });
         
         svg.append("g").attr("id", "x-axis")

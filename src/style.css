@@ -8,4 +8,15 @@ svg {
   background-color: aliceblue;
 }
 
+#tooltip {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.644);
+  color: white;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+}
+
 /*# sourceMappingURL=style.css.map */
