@@ -26,7 +26,11 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
     .then(data => {
         const dataset = data.monthlyVariance;
 
-        d3.select("body").append("h1").text("Monthly Global Land-surface Temperature");
+        d3.select("body").append("h1").text("Monthly Global Land-surface Temperature")
+            .attr("id", "title");
+
+        d3.select("body").append("h3").text(dataset[1].year + " - " + dataset[dataset.length-1].year + ": base temperature " + data.baseTemperature + String.fromCharCode(176) + "C")
+            .attr("id", "description");
 
         const xScale = d3.scaleLinear()
                         .domain([dataset[1].year, dataset[dataset.length-1].year])
