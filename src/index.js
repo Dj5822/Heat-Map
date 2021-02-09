@@ -36,8 +36,8 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
                         .domain([dataset[1].year, dataset[dataset.length-1].year])
                         .range([leftPadding, WIDTH - rightPadding]);
 
-        const yScale = d3.scaleLinear()
-                        .domain([1, 13])
+        const yScale = d3.scaleBand()
+                        .domain([1,2,3,4,5,6,7,8,9,10,11,12])
                         .range([botPadding, HEIGHT - topPadding]);
         
         const xAxis = d3.axisBottom(xScale);
@@ -66,6 +66,10 @@ fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
         var varianceText = tooltip.append("label");
 
         svg.selectAll('rect').data(dataset).enter().append('rect')
+            .attr("class", "cell")
+            .attr("data-month", (d, i) => d.month-1)
+            .attr("data-year", (d, i) => d.year)
+            .attr("data-temp", (d, i) => data.baseTemperature + d.variance)
             .attr("width", rectWidth)
             .attr("height", rectHeight)
             .attr("x", (d,i) => {
